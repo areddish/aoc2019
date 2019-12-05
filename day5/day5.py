@@ -1,7 +1,7 @@
 class VM:
-    def __init__(self, memory, input_val):
-        self.input = input_val
-        self.memory = memory
+    def __init__(self):
+        self.input = 0
+        self.memory = []
         self.pc = 0
         self.register = [0,0,0]
         self.halt_requested = False
@@ -57,7 +57,10 @@ class VM:
             val = self.memory[val]        
         self.register[reg_num] = val
 
-    def run(self):
+    def run(self, memory, input_val):
+        self.memory = memory.copy()
+        self.input = input_val
+
         while not self.halt_requested:
             op = self.read()
             op_code = op % 100
@@ -73,8 +76,7 @@ with open("input.txt") as data:
     codes = [int(x) for x in data.readline().strip().split(",")]
 
 print (f"Part1: ")
-machine = VM(codes.copy(), 1)
-machine.run()
+machine = VM()
+machine.run(codes, 1)
 print (f"Part2: ")
-machine = VM(codes.copy(), 5)
-machine.run()
+machine.run(codes, 5)
