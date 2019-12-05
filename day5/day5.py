@@ -5,7 +5,7 @@ class VM:
         self.pc = 0
         self.register = [0,0,0]
         self.halt_requested = False
-        self.opcodes = { # function, # of params, # of params we care about paramter mode (assumption last is storage)
+        self.op_codes = { # function, # of params, # of params we care about paramter mode (assumption last is storage)
             1: (self.add, 3, 2),
             2: (self.mul, 3, 2),
             3: (self.save, 1, 0),
@@ -62,7 +62,7 @@ class VM:
             op = self.read()
             op_code = op % 100
             
-            fn, param_count, param_mode_count = self.opcodes[op_code]
+            fn, param_count, param_mode_count = self.op_codes[op_code]
             for x in range(param_count):
                 param_mode = ((op // pow(10,x+2)) % 10)
                 self.load(x, param_mode if x < param_mode_count else 1)
